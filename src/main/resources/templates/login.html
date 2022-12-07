@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title tiles:fragment="title">Messages : Create</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div tiles:fragment="content" class="m-2">
+  <form name="f" th:action="@{/login}" method="post">
+    <fieldset>
+      <legend>Please Login</legend>
+      <div th:if="${param.error}" class="alert alert-error">
+        Invalid username and password.
+      </div>
+      <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
+      </div>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username"/>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password"/>
+      <div class="form-actions ">
+        <button type="submit" class="btn btn-primary m-2">Log in</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="m-2" >
+  <a class="btn btn-primary m-2" th:href="@{/new}" >Register</a>
+</div>
+
+
+</body>
+</html>
+

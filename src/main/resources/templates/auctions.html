@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+    <html lang="en" xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+    <div sec:authorize="isAuthenticated()">
+        Welcome <span sec:authentication="name">Username</span>
+        &nbsp;
+        <span sec:authentication="principal.authorities">Roles</span>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <head>
+        <meta charset="UTF-8">
+        <title>Auction list</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <meta charset="UTF-8">
+    <title>Auctions</title>
+</head>
+
+<body>
+<div class="container-fluid text-center">
+    <div><h2>Auction list</h2></div>
+    <div class="m-2" sec:authorize="hasAnyAuthority('ADMIN')">
+        <a class="h3" th:href="@{/auctions/new}" >Add New Auction</a>
+    </div>
+<table class="table table-bordered" >
+    <thead class="thead-dark">
+    <tr>
+        <th>ID</th>
+        <th>ItemName</th>
+        <th>TargetPrice</th>
+        <th>EndDate</th>
+        <th>LowestBid</th>
+        <th>CurrentWinner</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+                <th:block th:each="auction : ${listAuctions}">
+                    <tr>
+                        <td>[[${auction.id}]]</td>
+                        <td>[[${auction.itemName}]]</td>
+                        <td>[[${auction.targetPrice}]]</td>
+                        <td>[[${auction.startDate}]]</td>
+                        <td>[[${auction.lowestBid}]]</td>
+                        <td>[[${auction.currentWinner}]]</td>
+                        <td>
+                            <a class="h4 mr-3" th:href="@{'/auctions/bid/'+ ${auction.id}}">Bid</a>
+                            <a class="h4" th:href="@{'/auctions/delete/'+ ${auction.id}}" sec:authorize="hasAnyAuthority('ADMIN')">Delete</a>
+                        </td>
+
+                    </tr>
+                </th:block>
+                </tbody>
+</table>
+    </div>
+</body>
+</html>
